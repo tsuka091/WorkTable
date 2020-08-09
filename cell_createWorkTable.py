@@ -3,6 +3,12 @@
 
 #Excelの操作に
 import openpyxl
+import json
+
+with open('Settings.json') as jf:
+    settingFile = json.load(jf)
+column = settingFile['column']
+cellRange = settingFile['range']
 
 
 #ファイルを開く
@@ -11,20 +17,20 @@ book = openpyxl.load_workbook('templete_cell.xlsx', data_only=True)
 sheet = book['1']
 
 
-#セル列定義
-# この辺はjsonファイルに定義して使う感じがいいのかな
-day_column = 2
-start_column = 4
-end_column = 5
-
-for i in range(5, 66):
-    day = sheet.cell(row=i, column=day_column).value
-    if day == '土' or day == '日' or day == None:
+for i in range(cellRange['start'], cellRange['end']):
+    day = sheet.cell(row=i, column=column['day']).value
+    if day == '土' or day == '日' or day == None or day == '*':
         continue
     else:
-        sheet.cell(i + 1, start_column, '9:00')
-        sheet.cell(i + 1, end_column, '17:30')
+        sheet.cell(i + 1, column['opening'], '9:00')
+        sheet.cell(i + 1, column['closing'], '17:30')
 
+
+with open('NameList.json') as n:
+    nameFile = json.load(n)
+year_month = str(nameFile['year_month'])
+name = nameFile['name']
 
 #保存
-book.save('workTable_cell.xlsx')
+for item in name:
+    book.save(year_month + '_' + item + '.xlsx')

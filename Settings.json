@@ -1,0 +1,14 @@
+{
+    "column": {
+        "day": 2,
+        "opening": 4,
+        "closing":5
+    },
+
+    "range": {
+        "start": 5,
+        "end": 68
+    }
+
+
+}
