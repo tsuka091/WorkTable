@@ -8,6 +8,7 @@ import json
 with open('Settings.json') as jf:
     settingFile = json.load(jf)
 column = settingFile['column']
+memberProfile = settingFile['profile']
 cellRange = settingFile['range']
 
 
@@ -16,7 +17,7 @@ cellRange = settingFile['range']
 book = openpyxl.load_workbook('templete_cell.xlsx', data_only=True)
 sheet = book['1']
 
-
+#勤務時間入力
 for i in range(cellRange['start'], cellRange['end']):
     day = sheet.cell(row=i, column=column['day']).value
     if day == '土' or day == '日' or day == None or day == '*':
@@ -29,8 +30,12 @@ for i in range(cellRange['start'], cellRange['end']):
 with open('NameList.json') as n:
     nameFile = json.load(n)
 year_month = str(nameFile['year_month'])
-name = nameFile['name']
+memberList = nameFile['member']
 
-#保存
-for item in name:
-    book.save(year_month + '_' + item + '.xlsx')
+for member in memberList:
+    #profile入力
+    sheet[memberProfile['name']] = member['name']
+    sheet[memberProfile['yaku']] = member['yaku']
+
+    #保存
+    book.save(year_month + '_' + member['name'] + '.xlsx')

@@ -5,6 +5,11 @@
         "closing":5
     },
 
+    "profile": {
+        "name": "H3",
+        "yaku": "I3"
+    },
+
     "range": {
         "start": 5,
         "end": 68
